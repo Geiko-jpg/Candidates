@@ -12,11 +12,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -225,6 +226,11 @@ public class UserList extends JPanel implements ActionListener, ItemListener{
 		testCandidates.add(x);
 		x = new Candidate("2069122334", "Kyle", "Vice President", "PDP-LABAN");
 		testCandidates.add(x);
+		x = new Candidate("2011222222", "Elijah", "Secretary", "ANAKBAYAN");
+		testCandidates.add(x);
+		
+		// - - > SORTING METHOD
+		sortingList(testCandidates);
 		
 		Object xrow[] = null;
 		for(Candidate xcandidate : testCandidates) {
@@ -235,6 +241,15 @@ public class UserList extends JPanel implements ActionListener, ItemListener{
 			xrow[3] = xcandidate.getPosition();
 			dtm.addRow(xrow);
 		}		
+	}
+	
+	// - -  > SORTING UTILITY METHOD
+	private void sortingList(ArrayList<Candidate> xlist) {
+		Collections.sort(xlist, new Comparator<Candidate>() {
+			public int compare(Candidate c1, Candidate c2) {
+				return c1.getName().compareTo(c2.getName());
+			}
+		});
 	}
 
 	@Override
