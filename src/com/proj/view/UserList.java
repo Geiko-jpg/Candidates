@@ -36,11 +36,11 @@ public class UserList extends JPanel implements ActionListener, ItemListener{
 	private JTextField searchField;
 	private JButton searchButton, returnHomeButton, viewAll;
 	// - - > DECLARING COMBO BOX CHOICES
-	private String[] positionsArray = {"(Filter Position)", "President", "Vice President", "Executive Secretary",
+	private String[] positionsArray = {"(Filter Position - DEFAULT)", "President", "Vice President", "Executive Secretary",
 									  "Secretary of Agrarian Reform", "Secretary of Agriculture",
 									  "Secretary of Education", "Secretary of Finance", "Secretary of Energy",
 									  "Secretary of Health", "Secretary of Justice", "Warrior"};
-	private String[] partiesArray = {"(Filter Party)", "PDP-LABAN", "LIBERAL PARTY", "ANAKBAYAN", "AXIE PH"};
+	private String[] partiesArray = {"(Filter Party - DEFAULT)", "PDP-LABAN", "LIBERAL PARTY", "ANAKBAYAN", "AXIE PH"};
 	// - - > TABLE COMPONENTS
 	private DefaultTableModel dtm;
 	private JScrollPane jsp;
@@ -223,6 +223,8 @@ public class UserList extends JPanel implements ActionListener, ItemListener{
 		testCandidates.add(x);
 		x = new Candidate("2018121269", "Miguel", "President", "AXIE PH");
 		testCandidates.add(x);
+		x = new Candidate("2069122334", "Kyle", "Vice President", "PDP-LABAN");
+		testCandidates.add(x);
 		
 		Object xrow[] = null;
 		for(Candidate xcandidate : testCandidates) {
@@ -320,11 +322,12 @@ public class UserList extends JPanel implements ActionListener, ItemListener{
 			
 			// - - > CLEAR ALL ROWS IN THE TABLE
 			dtm.setRowCount(0);
+			filterPositionBox.setEnabled(false); // disable filter position
 			
 			// - - > FILTER ACCORDINGLY
 			Object xrow[] = null;
 			for(int i = 0; i < testCandidates.size(); i++) {
-				if(!(targetParty.contentEquals("(Filter Party)"))) { // CHECKS IF SELECTED FILTER IS NOT THE DEFAULT
+				if(!(targetParty.contentEquals("(Filter Party - DEFAULT)"))) { // CHECKS IF SELECTED FILTER IS NOT THE DEFAULT
 					if(testCandidates.get(i).getParty().contentEquals(targetParty)) { 
 						xrow = new Object[4]; // REPOPULATE THE TABLE
 						xrow[0] = testCandidates.get(i).getCode();
@@ -335,6 +338,7 @@ public class UserList extends JPanel implements ActionListener, ItemListener{
 					}	
 				}else {
 					System.out.println("DEFAULT FILTER - PARTIES");
+					filterPositionBox.setEnabled(true); // RE-ENABLE FILTERING POSITION
 					for(Candidate ycandidate : testCandidates) { // NESTED POPULATION ADVANCED FOR LOOP
 						xrow = new Object[4];
 						xrow[0] = ycandidate.getCode();
@@ -352,11 +356,12 @@ public class UserList extends JPanel implements ActionListener, ItemListener{
 			
 			// - - > CLEAR ALL ROWS IN THE TABLE
 			dtm.setRowCount(0);
+			filterPartyBox.setEnabled(false); // SET FILTER PARTY DISABLED
 			
 			// - - > FILTERING POSITION
 			Object xrow[] = null; // establish new rows
 			for(int i = 0; i < testCandidates.size(); i++) {
-				if(!(targetPosition.contentEquals("(Filter Position)"))) {
+				if(!(targetPosition.contentEquals("(Filter Position - DEFAULT)"))) {
 					if(testCandidates.get(i).getPosition().contentEquals(targetPosition)) {
 						xrow = new Object[4]; // REPOPULATE THE TABLE
 						xrow[0] = testCandidates.get(i).getCode();
@@ -367,6 +372,7 @@ public class UserList extends JPanel implements ActionListener, ItemListener{
 					}
 				}else {
 					System.out.println("DEFAULT FILTER - POSITIONS");
+					filterPartyBox.setEnabled(true); // RE ENABLE PARTY FILTER
 					for(Candidate zcandidate : testCandidates) { // NESTED POPULATION ADVANCED FOR LOOP
 						xrow = new Object[4];
 						xrow[0] = zcandidate.getCode();
