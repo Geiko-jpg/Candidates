@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,6 +19,7 @@ import java.util.Comparator;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -35,7 +37,7 @@ public class UserList extends JPanel implements ActionListener, ItemListener{
 	private JPanel upperPanel, middlePanel;
 	private JComboBox filterPartyBox, filterPositionBox;
 	private JTextField searchField;
-	private JButton searchButton, returnHomeButton, viewAll;
+	private JButton searchButton, returnHomeButton, viewAll, importFile, loadDb;
 	// - - > DECLARING COMBO BOX CHOICES
 	private String[] positionsArray = {"(Filter Position - DEFAULT)", "President", "Vice President", "Executive Secretary",
 									  "Secretary of Agrarian Reform", "Secretary of Agriculture",
@@ -50,6 +52,8 @@ public class UserList extends JPanel implements ActionListener, ItemListener{
 	private UserModal userModal;
 	// - - > ARRAY LIST VARIABLES
 	private ArrayList<Candidate> testCandidates = new ArrayList<Candidate>();
+	// - - > FILE CHOOSER
+	private final JFileChooser fc = new JFileChooser();
 	
 	public UserList() { // USER LIST CONSTRUCTOR
 		this.setLayout(new BorderLayout());
@@ -154,12 +158,24 @@ public class UserList extends JPanel implements ActionListener, ItemListener{
 		renderingTable();
 		populateTableTesting(); // POPULATE CONTENTS OF THE TABLE
 		
+		// - - > BUTTON HANDLE FOR IMPORTING EXTERNAL DATA
+		importFile = new JButton("IMPORT DATA"); // event handler for file chooser
+		importFile.setPreferredSize(new Dimension(140,40));
+		importFile.addActionListener(this);
+		middlePanel.add(importFile); 
+		
 		// - - > VIEW ALL BUTTON 
 		viewAll = new JButton("VIEW ALL");
 		viewAll.setPreferredSize(new Dimension(140, 40));
 		viewAll.addActionListener(this);
 		viewAll.setEnabled(false);
 		middlePanel.add(viewAll);
+		
+		// - - > BUTTON HANDLER FOR LOADING DB DATA
+		loadDb = new JButton("LOAD DB DATA"); 
+		loadDb.setPreferredSize(new Dimension(140,40));
+		loadDb.addActionListener(this);
+		middlePanel.add(loadDb);
 		
 		this.add(middlePanel, BorderLayout.CENTER);
 	}
@@ -325,6 +341,21 @@ public class UserList extends JPanel implements ActionListener, ItemListener{
 			viewAll.setEnabled(false); // disable button again after view all has been clicked!
 			filterPartyBox.setEnabled(true); // ENABLE COMBO BOXES
 			filterPositionBox.setEnabled(true); // ENABLE COMBO BOXES
+			
+		}else if(e.getSource().equals(importFile)) {
+			int returnVal = fc.showOpenDialog(this); // initialize file chooser
+			System.out.println("IMPORT FILE INITIATED");
+			
+			
+			if(returnVal == JFileChooser.APPROVE_OPTION) {
+				File file = fc.getSelectedFile();
+				System.out.println("Opening: " + file.getName());
+			} else {
+				System.out.println("Open Command Cancelled by the User");
+			}
+		
+		}else if(e.getSource().equals(loadDb)) {
+			System.out.println("LOAD DB INITIATED");
 		}
 	}
 
