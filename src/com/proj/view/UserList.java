@@ -34,6 +34,7 @@ import com.proj.model.Candidate;
 public class UserList extends JPanel implements ActionListener, ItemListener{
 	// - - > DECLARATIONS
 	private static final long serialVersionUID = 1L;
+	private int count = 0;
 	private JPanel upperPanel, middlePanel;
 	private JComboBox filterPartyBox, filterPositionBox;
 	private JTextField searchField;
@@ -57,7 +58,7 @@ public class UserList extends JPanel implements ActionListener, ItemListener{
 	
 	public UserList() { // USER LIST CONSTRUCTOR
 		this.setLayout(new BorderLayout());
-		
+				
 		upperPanel = new JPanel();
 		upperPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 15));
 		upperPanel.setPreferredSize(new Dimension(0, 80));
@@ -159,7 +160,7 @@ public class UserList extends JPanel implements ActionListener, ItemListener{
 		populateTableTesting(); // POPULATE CONTENTS OF THE TABLE
 		
 		// - - > BUTTON HANDLE FOR IMPORTING EXTERNAL DATA
-		importFile = new JButton("IMPORT DATA"); // event handler for file chooser
+		importFile = new JButton("IMPORT FILE DATA"); // event handler for file chooser
 		importFile.setPreferredSize(new Dimension(140,40));
 		importFile.addActionListener(this);
 		middlePanel.add(importFile); 
@@ -172,7 +173,7 @@ public class UserList extends JPanel implements ActionListener, ItemListener{
 		middlePanel.add(viewAll);
 		
 		// - - > BUTTON HANDLER FOR LOADING DB DATA
-		loadDb = new JButton("LOAD DB DATA"); 
+		loadDb = new JButton("IMPORT DB DATA"); 
 		loadDb.setPreferredSize(new Dimension(140,40));
 		loadDb.addActionListener(this);
 		middlePanel.add(loadDb);
@@ -182,7 +183,7 @@ public class UserList extends JPanel implements ActionListener, ItemListener{
 	
 	private void renderingTable() { // rendering the table structure for users list
 		Object columnsData[] = new Object[4];
-		columnsData[0] = "Candidate Code";
+		columnsData[0] = "Candidate I.D.";
 		columnsData[1] = "Candidate Name";
 		columnsData[2] = "Political Party";
 		columnsData[3] = "Political Position";
@@ -231,7 +232,7 @@ public class UserList extends JPanel implements ActionListener, ItemListener{
 		userModal = new UserModal(xcandidate);
 	}
 	
-	private void populateTableTesting() { // REMOVE LATER (TESTING ROW CLICKABILITY
+	private void populateTableTesting() { // REMOVE LATER (TESTING ROW CLICKABILITY | SUBJECT TO CHANGE
 		Candidate x = new Candidate("2019102829", "Kyle", "President", "PDP-LABAN");
 		testCandidates.add(x);
 		x = new Candidate("2019101323", "Drei", "President", "LIBERAL PARTY");
@@ -243,7 +244,7 @@ public class UserList extends JPanel implements ActionListener, ItemListener{
 		x = new Candidate("2069122334", "Kyle", "Vice President", "PDP-LABAN");
 		testCandidates.add(x);
 		x = new Candidate("2011222222", "Elijah", "Secretary", "ANAKBAYAN");
-		testCandidates.add(x);
+		testCandidates.add(x); 
 		
 		// - - > SORTING METHOD
 		sortingList(testCandidates);
@@ -342,10 +343,9 @@ public class UserList extends JPanel implements ActionListener, ItemListener{
 			filterPartyBox.setEnabled(true); // ENABLE COMBO BOXES
 			filterPositionBox.setEnabled(true); // ENABLE COMBO BOXES
 			
-		}else if(e.getSource().equals(importFile)) {
+		}else if(e.getSource().equals(importFile)) { // WHEN IMPORT FILE IS PRESSED!
 			int returnVal = fc.showOpenDialog(this); // initialize file chooser
 			System.out.println("IMPORT FILE INITIATED");
-			
 			
 			if(returnVal == JFileChooser.APPROVE_OPTION) {
 				File file = fc.getSelectedFile();
@@ -354,7 +354,7 @@ public class UserList extends JPanel implements ActionListener, ItemListener{
 				System.out.println("Open Command Cancelled by the User");
 			}
 		
-		}else if(e.getSource().equals(loadDb)) {
+		}else if(e.getSource().equals(loadDb)) { // LOADING DB DATA EVENT HANDLER
 			System.out.println("LOAD DB INITIATED");
 		}
 	}
